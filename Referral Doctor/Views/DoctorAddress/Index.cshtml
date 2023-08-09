@@ -43,7 +43,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                    @Html.DisplayFor(modelItem => item.Doctor.DoctorId)
+                @Html.DisplayFor(modelItem => item.Doctor.DoctorId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Address.AddressId)
@@ -67,9 +67,9 @@
                 @Html.DisplayFor(modelItem => item.ModifiedDateTime)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { doctorId = item.DoctorId, addressId = item.AddressId }) |
-                @Html.ActionLink("Details", "Details", new { doctorId = item.DoctorId, addressId = item.AddressId }) |
-                @Html.ActionLink("Delete", "Delete", new { doctorId = item.DoctorId, addressId = item.AddressId })
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

@@ -17,79 +17,10 @@ namespace Referral_Doctor.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ReferralDoctor.Models.DoctorInsurance", b =>
-                {
-                    b.Property<int?>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("InsuranceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("CreatedDateTime")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("ModifiedDateTime")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DoctorId", "InsuranceId");
-
-                    b.HasIndex("InsuranceId");
-
-                    b.ToTable("DoctorInsurances");
-                });
-
-            modelBuilder.Entity("ReferralDoctor.Models.Insurance", b =>
-                {
-                    b.Property<int>("InsuranceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InsuranceId"));
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("CreatedDateTime")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool?>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("InsuranceName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("ModifiedDateTime")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("InsuranceId");
-
-                    b.ToTable("Insurances");
-                });
 
             modelBuilder.Entity("Referral_Doctor.Models.Address", b =>
                 {
@@ -197,13 +128,14 @@ namespace Referral_Doctor.Migrations
 
             modelBuilder.Entity("Referral_Doctor.Models.DoctorAddress", b =>
                 {
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AddressId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
+                        .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -214,6 +146,9 @@ namespace Referral_Doctor.Migrations
                     b.Property<bool?>("Deleted")
                         .HasColumnType("bit");
 
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -223,11 +158,92 @@ namespace Referral_Doctor.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DoctorId", "AddressId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
+                    b.HasIndex("DoctorId", "AddressId", "Deleted")
+                        .IsUnique()
+                        .HasFilter("[Deleted] IS NOT NULL");
+
                     b.ToTable("DoctorAddresses");
+                });
+
+            modelBuilder.Entity("Referral_Doctor.Models.DoctorInsurance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InsuranceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InsuranceId");
+
+                    b.HasIndex("DoctorId", "InsuranceId", "Deleted")
+                        .IsUnique()
+                        .HasFilter("[Deleted] IS NOT NULL");
+
+                    b.ToTable("DoctorInsurances");
+                });
+
+            modelBuilder.Entity("Referral_Doctor.Models.Insurance", b =>
+                {
+                    b.Property<int>("InsuranceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InsuranceId"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("InsuranceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("InsuranceId");
+
+                    b.ToTable("Insurances");
                 });
 
             modelBuilder.Entity("Referral_Doctor.Models.Specialty", b =>
@@ -340,25 +356,6 @@ namespace Referral_Doctor.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ReferralDoctor.Models.DoctorInsurance", b =>
-                {
-                    b.HasOne("Referral_Doctor.Models.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ReferralDoctor.Models.Insurance", "Insurance")
-                        .WithMany()
-                        .HasForeignKey("InsuranceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Insurance");
-                });
-
             modelBuilder.Entity("Referral_Doctor.Models.Doctor", b =>
                 {
                     b.HasOne("Referral_Doctor.Models.Specialty", "Specialty")
@@ -391,6 +388,25 @@ namespace Referral_Doctor.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("Referral_Doctor.Models.DoctorInsurance", b =>
+                {
+                    b.HasOne("Referral_Doctor.Models.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Referral_Doctor.Models.Insurance", "Insurance")
+                        .WithMany()
+                        .HasForeignKey("InsuranceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Insurance");
                 });
 #pragma warning restore 612, 618
         }

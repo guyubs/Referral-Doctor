@@ -1,22 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿// 没有使用双联合主键DoctorId，AddressId的原因是在Edit该表时若修改了其中一个联合主键，会检索不到该行信息。
+// 也可以通过不允许修改联合主键来避免上面的问题。
+
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace Referral_Doctor.Models
 {
-
     public class DoctorAddress
     {
-        [Key, Column(Order = 1)]
-        public int DoctorId { get; set; }
-
-        [Key, Column(Order = 2)]
-        public int AddressId { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         [ForeignKey("DoctorId")]
         public Doctor? Doctor { get; set; }
 
+        public int DoctorId { get; set; }
+
         [ForeignKey("AddressId")]
         public Address? Address { get; set; }
+
+        public int AddressId { get; set; }
 
         public string? Note { get; set; }
 
@@ -31,5 +34,4 @@ namespace Referral_Doctor.Models
         public DateTime? ModifiedDateTime { get; set; }
 
     }
-
 }

@@ -26,11 +26,6 @@ namespace Referral_Doctor.Controllers
         }
 
 
-
-
-
-
-
         [HttpPost]
         public IActionResult VerifyLogin(LoginViewModel model)
         {

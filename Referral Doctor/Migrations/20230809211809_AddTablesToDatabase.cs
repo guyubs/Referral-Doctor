@@ -42,13 +42,13 @@ namespace Referral_Doctor.Migrations
                 {
                     InsuranceId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InsuranceName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    InsuranceName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Deleted = table.Column<bool>(type: "bit", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    ModifiedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -147,6 +147,8 @@ namespace Referral_Doctor.Migrations
                 name: "DoctorAddresses",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -158,7 +160,7 @@ namespace Referral_Doctor.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctorAddresses", x => new { x.DoctorId, x.AddressId });
+                    table.PrimaryKey("PK_DoctorAddresses", x => x.Id);
                     table.ForeignKey(
                         name: "FK_DoctorAddresses_Addresses_AddressId",
                         column: x => x.AddressId,
@@ -177,18 +179,20 @@ namespace Referral_Doctor.Migrations
                 name: "DoctorInsurances",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
                     InsuranceId = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    ModifiedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctorInsurances", x => new { x.DoctorId, x.InsuranceId });
+                    table.PrimaryKey("PK_DoctorInsurances", x => x.Id);
                     table.ForeignKey(
                         name: "FK_DoctorInsurances_Doctors_DoctorId",
                         column: x => x.DoctorId,
@@ -207,6 +211,20 @@ namespace Referral_Doctor.Migrations
                 name: "IX_DoctorAddresses_AddressId",
                 table: "DoctorAddresses",
                 column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorAddresses_DoctorId_AddressId_Deleted",
+                table: "DoctorAddresses",
+                columns: new[] { "DoctorId", "AddressId", "Deleted" },
+                unique: true,
+                filter: "[Deleted] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorInsurances_DoctorId_InsuranceId_Deleted",
+                table: "DoctorInsurances",
+                columns: new[] { "DoctorId", "InsuranceId", "Deleted" },
+                unique: true,
+                filter: "[Deleted] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DoctorInsurances_InsuranceId",

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ReferralDoctor.Models;
 
 namespace Referral_Doctor.Models
 {
@@ -30,8 +29,12 @@ namespace Referral_Doctor.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<User>();
+
+            // 定义UserName Email唯一
+            modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+
 
             modelBuilder.Entity<Doctor>()
                 .HasOne(d => d.Title)
@@ -43,25 +46,30 @@ namespace Referral_Doctor.Models
                 .WithMany()
                 .HasForeignKey(d => d.SpecialtyId);
 
+
+            // 添加DoctorAddress体的配置
             modelBuilder.Entity<DoctorAddress>()
-                .HasKey(da => new { da.DoctorId, da.AddressId });
+                .HasKey(di => di.Id); // 将主键配置为 Id
 
             modelBuilder.Entity<DoctorAddress>()
-                .HasOne(da => da.Doctor)
+                .HasOne(di => di.Doctor)
                 .WithMany()
-                .HasForeignKey(da => da.DoctorId);
+                .HasForeignKey(di => di.DoctorId);
 
             modelBuilder.Entity<DoctorAddress>()
-                .HasOne(da => da.Address)
+                .HasOne(di => di.Address)
                 .WithMany()
-                .HasForeignKey(da => da.AddressId);
+                .HasForeignKey(di => di.AddressId);
 
-            // 添加Insurance体的配置
-            modelBuilder.Entity<Insurance>();
+            // 唯一性索引
+            modelBuilder.Entity<DoctorAddress>()
+            .HasIndex(di => new { di.DoctorId, di.AddressId, di.Deleted })
+            .IsUnique();
+
 
             // 添加DoctorInsurance体的配置
             modelBuilder.Entity<DoctorInsurance>()
-                .HasKey(di => new { di.DoctorId, di.InsuranceId });
+                .HasKey(di => di.Id); // 将主键配置为 Id
 
             modelBuilder.Entity<DoctorInsurance>()
                 .HasOne(di => di.Doctor)
@@ -73,9 +81,10 @@ namespace Referral_Doctor.Models
                 .WithMany()
                 .HasForeignKey(di => di.InsuranceId);
 
-            // 定义UserName Email唯一
-            modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
-            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            // 唯一性索引
+            modelBuilder.Entity<DoctorInsurance>()
+            .HasIndex(di => new { di.DoctorId, di.InsuranceId, di.Deleted })
+            .IsUnique();
 
         }
 

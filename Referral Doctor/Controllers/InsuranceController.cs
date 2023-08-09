@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ReferralDoctor.Models;
 using Referral_Doctor.Models;
 
 namespace Referral_Doctor.Controllers
