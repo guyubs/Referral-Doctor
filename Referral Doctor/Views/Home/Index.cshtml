@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (TempData["Message"] != null)
+{
+        <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <a href="@Url.Action("Index", "Login")">Login</a>
+    <a href="@Url.Action("Index", "Sign_up")">Sign Up</a>
+    @*<a asp-controller="Home" asp-action="Sign_up">Sign Up</a>*@
+
+
+
+    <!-- 添加 Logout 按钮 -->
+    <form method="post" action="@Url.Action("Logout", "Login")" style="display: inline;">
+        <button type="submit" class="btn btn-link">Logout</button>
+    </form>
+</div>

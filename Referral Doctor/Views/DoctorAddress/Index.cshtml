@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Referral_Doctor.Models.DoctorAddress>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>DoctorAddress Table</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Doctor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDateTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Doctor.DoctorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.AddressId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDateTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { doctorId = item.DoctorId, addressId = item.AddressId }) |
+                @Html.ActionLink("Details", "Details", new { doctorId = item.DoctorId, addressId = item.AddressId }) |
+                @Html.ActionLink("Delete", "Delete", new { doctorId = item.DoctorId, addressId = item.AddressId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <ul>
+        <li><a href="@Url.Action("Index", "Login")">Back to Main Panel</a></li>
+    </ul>
+</div>

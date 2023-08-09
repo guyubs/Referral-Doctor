@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Main Panel</h1>
+  
+    @* 以下集中方法都可以连接到根目录下各个表的Index.cshtml. *@
+    <!--
+        如果某个View不再Views根目录下，则指向会很麻烦。目前建议把View放在根目录下。
+    -->
+    <a asp-controller="Doctor" asp-action="Index">Doctor Table</a><br />
+    <a href="/Address">Address Table</a><br />
+    <a href="/DoctorAddress/Index">DoctorAddress Table</a><br />
+    <a href="/Specialty">Specialty Table</a><br />
+    <a href="/Title">Title Table</a><br />
+    <a href="/Insurance">Insurance Table</a><br />
+    <a href="/DoctorInsurance">DoctorInsurance Table</a><br />
+    <br />
+    <a href="/User">User Table</a><br />
+</div>
+
