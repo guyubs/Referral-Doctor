@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Referral_Doctor.Models;
 
@@ -14,6 +15,23 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // AddTablesToDatabase 是迁移的名字
 // 当数据迁移建立好后， run: update-database, 开始迁移
 // 若在数据迁移之后有增加新的table, 则需run Add-Migration NewTableName, 然后 update-database
+
+
+
+// 添加认证服务
+builder.Services.AddAuthentication(options => {
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(options => {
+    options.LoginPath = "/Login";
+    options.AccessDeniedPath = "/Forbidden";
+});
+
+
+
+
+
+
 
 //用于显示razor pages
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -33,6 +51,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// 添加认证中间件
+app.UseAuthentication();
+
 
 app.UseAuthorization();
 

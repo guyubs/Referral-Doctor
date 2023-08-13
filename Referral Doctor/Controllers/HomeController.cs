@@ -15,21 +15,20 @@ namespace Referral_Doctor.Controllers
 
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return View("/Views/Login/Panel/Index.cshtml");
+            }
+
             return View();
         }
-
-        // 点击Home页Sign_up 显示/Views/Home/Sign_up/Index.cshtml
-        //public IActionResult Sign_up()
-        //{
-        // return View("/Views/Home/Sign_up/Index.cshtml");
-        //}
-
 
 
         public IActionResult Privacy()
         {
             return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

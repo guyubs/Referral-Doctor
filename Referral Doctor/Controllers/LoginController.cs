@@ -2,6 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Referral_Doctor.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Referral_Doctor.Controllers
 {
@@ -17,9 +22,8 @@ namespace Referral_Doctor.Controllers
         public IActionResult Index()
         {
             // 如果用户已登录，直接跳转到 Panel 页面
-            if (HttpContext.Request.Cookies.TryGetValue("UserId", out string userId))
+            if (User.Identity.IsAuthenticated)
             {
-                //return RedirectToAction("Index", "Panel");
                 return View("/Views/Login/Panel/Index.cshtml");
             }
             return View();
@@ -27,30 +31,34 @@ namespace Referral_Doctor.Controllers
 
 
         [HttpPost]
-        public IActionResult VerifyLogin(LoginViewModel model)
+        public async Task<IActionResult> VerifyLogin(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = _context.Users.FirstOrDefault(u => u.UserName == model.UserName && u.Password == model.Password);
+
                 if (user != null)
                 {
-                    // 登录成功，设置 Cookie
-                    var options = new CookieOptions
+                    // 生成ClaimsIdentity
+                    var claims = new List<Claim>
                     {
-                        Expires = DateTime.Now.AddDays(1),
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.None
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim("UserId", user.Id.ToString())
                     };
-                    Response.Cookies.Append("UserId", user.Id.ToString(), options); // 记录Id
-                    Response.Cookies.Append("UserName", user.UserName.ToString(), options); // 记录用户名，用于在填表时获取用户名
 
-                    return View("/Views/Login/Panel/Index.cshtml");
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+
+                    // 使用SignInAsync登录用户
+                    await HttpContext.SignInAsync(principal);
+
+                    return RedirectToAction("Index", "Panel");
+
                 }
                 else
                 {
-                    ModelState.AddModelError("", "用户名或密码不正确");
-                    return View("Index", model);
+                    ModelState.AddModelError("", "用户名或密码错误");
+                    return View();
                 }
             }
 
@@ -58,13 +66,14 @@ namespace Referral_Doctor.Controllers
             return View("Index", model);
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            // 清除 Cookie
-            Response.Cookies.Delete("UserId");
+            await HttpContext.SignOutAsync();
 
-            // 设置成功消息
-            TempData["Message"] = "Logout successful.";
+            // 清除Cookie
+            Response.Cookies.Delete("UserCookie");
+
+            TempData["Message"] = "You are now logged out";
 
             return RedirectToAction("Index", "Home");
         }

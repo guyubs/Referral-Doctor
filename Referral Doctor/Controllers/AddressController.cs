@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Referral_Doctor.Models;
 
 namespace Referral_Doctor.Controllers
 {
+    [Authorize]
     public class AddressController : Controller
     {
         private readonly ApplicationDbContext _context;
