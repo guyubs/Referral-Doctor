@@ -30,7 +30,7 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" id="saveButton" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -40,3 +40,43 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
+
+@* 若无修改，则不能点击Save *@
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // 获取表单的原始值
+            var originalFormValues = {
+                SpecialtyName: $("#SpecialtyName").val(),
+                Note: $("#Note").val(),
+                Deleted: $("#Deleted").val()
+            };
+
+            // 检查字段变化
+            function checkFormChanges() {
+                var currentFormValues = {
+                    SpecialtyName: $("#SpecialtyName").val(),
+                    Note: $("#Note").val(),
+                    Deleted: $("#Deleted").val()
+                };
+
+                return JSON.stringify(currentFormValues) !== JSON.stringify(originalFormValues);
+            }
+
+            // 当字段变化时更新按钮状态
+            function updateButtonState() {
+                var isFormChanged = checkFormChanges();
+                $("#saveButton").prop("disabled", !isFormChanged);
+            }
+
+            // 监听字段变化事件
+            $("#SpecialtyName, #Note, #Deleted").change(function () {
+                updateButtonState();
+            });
+
+            // 初始化按钮状态
+            updateButtonState();
+        });
+    </script>
+}

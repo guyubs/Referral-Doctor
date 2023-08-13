@@ -59,6 +59,24 @@ namespace Referral_Doctor.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                // 删除输入字符串末尾的空格
+                if (!string.IsNullOrWhiteSpace(user.UserName)) // UserName 为前端的用户输入
+                {
+                    user.UserName = user.UserName.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(user.Email))
+                {
+                    user.Email = user.Email.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(user.Phone))
+                {
+                    user.Phone = user.Phone.TrimEnd();
+                }
+
+
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

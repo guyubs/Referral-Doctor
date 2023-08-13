@@ -59,6 +59,13 @@ namespace Referral_Doctor.Controllers
         {
             if (ModelState.IsValid)
             {
+                // 删除输入字符串末尾的空格
+                if (!string.IsNullOrWhiteSpace(insurance.InsuranceName)) // InsuranceName 为前端的用户输入
+                {
+                    insurance.InsuranceName = insurance.InsuranceName.TrimEnd();
+                }
+
+
                 // 设置 CreatedDateTime 属性为当前时间
                 insurance.CreatedDateTime = DateTime.Now;
 

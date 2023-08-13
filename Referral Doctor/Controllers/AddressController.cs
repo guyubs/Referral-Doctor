@@ -59,6 +59,43 @@ namespace Referral_Doctor.Controllers
         {
             if (ModelState.IsValid)
             {
+                // 删除输入字符串末尾的空格
+                if (!string.IsNullOrWhiteSpace(address.Street1)) // TitleName 为前端的用户输入
+                {
+                    address.Street1 = address.Street1.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(address.Street2)) // TitleName 为前端的用户输入
+                {
+                    address.Street2 = address.Street2.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(address.City)) // TitleName 为前端的用户输入
+                {
+                    address.City = address.City.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(address.State)) // TitleName 为前端的用户输入
+                {
+                    address.State = address.State.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(address.Zip)) // TitleName 为前端的用户输入
+                {
+                    address.Zip = address.Zip.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(address.Tel)) // TitleName 为前端的用户输入
+                {
+                    address.Tel = address.Tel.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(address.Fax)) // TitleName 为前端的用户输入
+                {
+                    address.Fax = address.Fax.TrimEnd();
+                }
+
+
                 // 设置 CreatedDateTime 属性为当前时间
                 address.CreatedDateTime = DateTime.Now;
 

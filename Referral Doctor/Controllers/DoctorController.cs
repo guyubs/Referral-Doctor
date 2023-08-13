@@ -62,6 +62,24 @@ namespace Referral_Doctor.Controllers
         {
             if (ModelState.IsValid)
             {
+                // 删除输入字符串末尾的空格
+                if (!string.IsNullOrWhiteSpace(doctor.FirstName)) // FirstName 为前端的用户输入
+                {
+                    doctor.FirstName = doctor.FirstName.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(doctor.LastName))
+                {
+                    doctor.LastName = doctor.LastName.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(doctor.Contact))
+                {
+                    doctor.Contact = doctor.Contact.TrimEnd();
+                }
+
+
+
                 // 设置 CreatedDateTime 属性为当前时间
                 doctor.CreatedDateTime = DateTime.Now;
 
