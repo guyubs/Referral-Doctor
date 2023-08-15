@@ -1,10 +1,17 @@
-﻿@model IEnumerable<Referral_Doctor.Models.DoctorInsurance>
+﻿@model IEnumerable<Referral_Doctor.Models.InsuranceCompanies>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>DoctorInsurance Table</h1>
+
+@* 此段代码可以在页面上显示提示信息 *@
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">@TempData["success"]</div>
+}
+
+<h1>InsuranceCompanies Table</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,10 +20,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Doctor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Insurance)
+                @Html.DisplayNameFor(model => model.InsuranceCoName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Note)
@@ -43,16 +47,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Doctor.DoctorId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Insurance.InsuranceId)
+                    @Html.DisplayFor(modelItem => item.InsuranceCoName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Deleted)
+                    @Html.DisplayFor(modelItem => item.Deleted)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedBy)
@@ -67,9 +68,9 @@
                 @Html.DisplayFor(modelItem => item.ModifiedDateTime)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.InsuranceCoId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.InsuranceCoId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.InsuranceCoId">Delete (Only for test)</a>
             </td>
         </tr>
 }

@@ -29,10 +29,6 @@ builder.Services.AddAuthentication(options => {
 
 
 
-
-
-
-
 //用于显示razor pages
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 

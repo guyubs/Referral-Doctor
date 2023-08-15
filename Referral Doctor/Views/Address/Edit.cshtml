@@ -76,7 +76,13 @@
         $(document).ready(function () {
             // 获取表单的原始值
             var originalFormValues = {
-                SpecialtyName: $("#SpecialtyName").val(),
+                Street1: $("#Street1").val(),
+                Street2: $("#Street2").val(),
+                City: $("#City").val(),
+                State: $("#State").val(),
+                Zip: $("#Zip").val(),
+                Tel: $("#Tel").val(),
+                Fax: $("#Fax").val(),
                 Note: $("#Note").val(),
                 Deleted: $("#Deleted").val()
             };
@@ -84,7 +90,13 @@
             // 检查字段变化
             function checkFormChanges() {
                 var currentFormValues = {
-                    SpecialtyName: $("#SpecialtyName").val(),
+                    Street1: $("#Street1").val(),
+                    Street2: $("#Street2").val(),
+                    City: $("#City").val(),
+                    State: $("#State").val(),
+                    Zip: $("#Zip").val(),
+                    Tel: $("#Tel").val(),
+                    Fax: $("#Fax").val(),
                     Note: $("#Note").val(),
                     Deleted: $("#Deleted").val()
                 };
@@ -99,7 +111,7 @@
             }
 
             // 监听字段变化事件
-            $("#SpecialtyName, #Note, #Deleted").change(function () {
+            $("#Street1, #Street2, #City, #State, #Zip, #Tel, #Fax, #Note, #Deleted").change(function () {
                 updateButtonState();
             });
 

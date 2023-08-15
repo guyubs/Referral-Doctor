@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Referral_Doctor.Models
 {
-    public class Insurance
+    public class InsuranceCompanies
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int InsuranceId { get; set; }
+        public int InsuranceCoId { get; set; }
 
-        public string? InsuranceName { get; set; }
+        public string? InsuranceCoName { get; set; }
 
         public string? Note { get; set; }
 

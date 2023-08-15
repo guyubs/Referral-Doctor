@@ -11,11 +11,11 @@ using Referral_Doctor.Models;
 namespace Referral_Doctor.Controllers
 {
     [Authorize]
-    public class InsuranceController : Controller
+    public class InsuranceCompaniesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public InsuranceController(ApplicationDbContext context)
+        public InsuranceCompaniesController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,21 +23,21 @@ namespace Referral_Doctor.Controllers
         // GET: Insurance
         public async Task<IActionResult> Index()
         {
-              return _context.Insurances != null ? 
-                          View(await _context.Insurances.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Insurances'  is null.");
+              return _context.InsuranceCompanies != null ? 
+                          View(await _context.InsuranceCompanies.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.InsuranceCompanies'  is null.");
         }
 
         // GET: Insurance/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Insurances == null)
+            if (id == null || _context.InsuranceCompanies == null)
             {
                 return NotFound();
             }
 
-            var insurance = await _context.Insurances
-                .FirstOrDefaultAsync(m => m.InsuranceId == id);
+            var insurance = await _context.InsuranceCompanies
+                .FirstOrDefaultAsync(m => m.InsuranceCoId == id);
             if (insurance == null)
             {
                 return NotFound();
@@ -57,14 +57,14 @@ namespace Referral_Doctor.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("InsuranceId,InsuranceName,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] Insurance insurance)
+        public async Task<IActionResult> Create([Bind("InsuranceCoId,InsuranceCoName,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] InsuranceCompanies insurance)
         {
             if (ModelState.IsValid)
             {
                 // 删除输入字符串末尾的空格
-                if (!string.IsNullOrWhiteSpace(insurance.InsuranceName)) // InsuranceName 为前端的用户输入
+                if (!string.IsNullOrWhiteSpace(insurance.InsuranceCoName)) // InsuranceCoName 为前端的用户输入
                 {
-                    insurance.InsuranceName = insurance.InsuranceName.TrimEnd();
+                    insurance.InsuranceCoName = insurance.InsuranceCoName.TrimEnd();
                 }
 
 
@@ -87,12 +87,12 @@ namespace Referral_Doctor.Controllers
         // GET: Insurance/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Insurances == null)
+            if (id == null || _context.InsuranceCompanies == null)
             {
                 return NotFound();
             }
 
-            var insurance = await _context.Insurances.FindAsync(id);
+            var insurance = await _context.InsuranceCompanies.FindAsync(id);
             if (insurance == null)
             {
                 return NotFound();
@@ -105,9 +105,9 @@ namespace Referral_Doctor.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("InsuranceId,InsuranceName,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] Insurance insurance)
+        public async Task<IActionResult> Edit(int id, [Bind("InsuranceCoId,InsuranceCoName,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] InsuranceCompanies insurance)
         {
-            if (id != insurance.InsuranceId)
+            if (id != insurance.InsuranceCoId)
             {
                 return NotFound();
             }
@@ -121,9 +121,9 @@ namespace Referral_Doctor.Controllers
                     // 然后，将现有记录的 CreatedDateTime 和 CreatedBy 的值分配给编辑后的实体，以确保在编辑操作时这些字段的值不会改变。
                     // 然后，设置 ModifiedDateTime 和 ModifiedBy 字段，将编辑后的实体保存到数据库。
 
-                    var existingInsurance = await _context.Insurances
+                    var existingInsurance = await _context.InsuranceCompanies
                 .AsNoTracking() // Load the existing record without tracking changes
-                .FirstOrDefaultAsync(m => m.InsuranceId == id);
+                .FirstOrDefaultAsync(m => m.InsuranceCoId == id);
 
                     if (existingInsurance == null)
                     {
@@ -146,7 +146,7 @@ namespace Referral_Doctor.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InsuranceExists(insurance.InsuranceId))
+                    if (!InsuranceExists(insurance.InsuranceCoId))
                     {
                         return NotFound();
                     }
@@ -163,13 +163,13 @@ namespace Referral_Doctor.Controllers
         // GET: Insurance/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Insurances == null)
+            if (id == null || _context.InsuranceCompanies == null)
             {
                 return NotFound();
             }
 
-            var insurance = await _context.Insurances
-                .FirstOrDefaultAsync(m => m.InsuranceId == id);
+            var insurance = await _context.InsuranceCompanies
+                .FirstOrDefaultAsync(m => m.InsuranceCoId == id);
             if (insurance == null)
             {
                 return NotFound();
@@ -183,14 +183,14 @@ namespace Referral_Doctor.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Insurances == null)
+            if (_context.InsuranceCompanies == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Insurances'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.InsuranceCompanies'  is null.");
             }
-            var insurance = await _context.Insurances.FindAsync(id);
+            var insurance = await _context.InsuranceCompanies.FindAsync(id);
             if (insurance != null)
             {
-                _context.Insurances.Remove(insurance);
+                _context.InsuranceCompanies.Remove(insurance);
             }
             
             await _context.SaveChangesAsync();
@@ -199,7 +199,7 @@ namespace Referral_Doctor.Controllers
 
         private bool InsuranceExists(int id)
         {
-          return (_context.Insurances?.Any(e => e.InsuranceId == id)).GetValueOrDefault();
+          return (_context.InsuranceCompanies?.Any(e => e.InsuranceCoId == id)).GetValueOrDefault();
         }
     }
 }

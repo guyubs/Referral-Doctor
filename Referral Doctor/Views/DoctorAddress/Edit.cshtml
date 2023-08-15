@@ -52,7 +52,8 @@
         $(document).ready(function () {
             // 获取表单的原始值
             var originalFormValues = {
-                SpecialtyName: $("#SpecialtyName").val(),
+                DoctorId: $("#DoctorId").val(),
+                AddressId: $("#AddressId").val(),
                 Note: $("#Note").val(),
                 Deleted: $("#Deleted").val()
             };
@@ -60,7 +61,8 @@
             // 检查字段变化
             function checkFormChanges() {
                 var currentFormValues = {
-                    SpecialtyName: $("#SpecialtyName").val(),
+                    DoctorId: $("#DoctorId").val(),
+                    AddressId: $("#AddressId").val(),
                     Note: $("#Note").val(),
                     Deleted: $("#Deleted").val()
                 };
@@ -75,7 +77,7 @@
             }
 
             // 监听字段变化事件
-            $("#SpecialtyName, #Note, #Deleted").change(function () {
+            $("#DoctorId, #AddressId, #Note, #Deleted").change(function () {
                 updateButtonState();
             });
 

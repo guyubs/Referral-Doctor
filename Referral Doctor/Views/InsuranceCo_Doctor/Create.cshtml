@@ -1,4 +1,4 @@
-﻿@model Referral_Doctor.Models.Insurance
+﻿@model Referral_Doctor.Models.InsuranceCo_Doctor
 
 @{
     ViewData["Title"] = "Create";
@@ -6,16 +6,19 @@
 
 <h1>Create</h1>
 
-<h4>Insurance</h4>
+<h4>InsuranceCo_Doctor</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="InsuranceName" class="control-label"></label>
-                <input asp-for="InsuranceName" class="form-control" />
-                <span asp-validation-for="InsuranceName" class="text-danger"></span>
+                <label asp-for="DoctorId" class="control-label"></label>
+                <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="InsuranceCoId" class="control-label"></label>
+                <select asp-for="InsuranceCoId" class="form-control" asp-items="ViewBag.InsuranceCoId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Note" class="control-label"></label>

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Referral_Doctor.Models
 {
-    public class DoctorInsurance
+    public class InsuranceCo_Doctor
     {
         [Key]
         public int Id { get; set; }
@@ -13,10 +13,10 @@ namespace Referral_Doctor.Models
 
         public int DoctorId { get; set; }
 
-        [ForeignKey("InsuranceId")]
-        public Insurance? Insurance { get; set; }
+        [ForeignKey("InsuranceCoId")]
+        public InsuranceCompanies? InsuranceCompanies { get; set; }
 
-        public int InsuranceId { get; set; }
+        public int InsuranceCoId { get; set; }
 
         public string? Note { get; set; }
 

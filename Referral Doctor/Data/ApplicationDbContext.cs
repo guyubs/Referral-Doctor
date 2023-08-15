@@ -22,15 +22,14 @@ namespace Referral_Doctor.Models
 
         public DbSet<DoctorAddress> DoctorAddresses { get; set; }
 
-        public DbSet<Insurance> Insurances { get; set; }
+        public DbSet<InsuranceCompanies> InsuranceCompanies { get; set; }
 
-        public DbSet<DoctorInsurance> DoctorInsurances { get; set; }
+        public DbSet<InsuranceCo_Doctor> InsuranceCo_Doctor { get; set; } // 白色字体对应控制器中的'_context.InsuranceCo_Doctor'
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>();
-
             // 定义UserName Email唯一
             modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
@@ -68,22 +67,22 @@ namespace Referral_Doctor.Models
 
 
             // 添加DoctorInsurance体的配置
-            modelBuilder.Entity<DoctorInsurance>()
+            modelBuilder.Entity<InsuranceCo_Doctor>()
                 .HasKey(di => di.Id); // 将主键配置为 Id
 
-            modelBuilder.Entity<DoctorInsurance>()
+            modelBuilder.Entity<InsuranceCo_Doctor>()
                 .HasOne(di => di.Doctor)
                 .WithMany()
                 .HasForeignKey(di => di.DoctorId);
 
-            modelBuilder.Entity<DoctorInsurance>()
-                .HasOne(di => di.Insurance)
+            modelBuilder.Entity<InsuranceCo_Doctor>()
+                .HasOne(di => di.InsuranceCompanies)
                 .WithMany()
-                .HasForeignKey(di => di.InsuranceId);
+                .HasForeignKey(di => di.InsuranceCoId);
 
             // 唯一性索引
-            modelBuilder.Entity<DoctorInsurance>()
-            .HasIndex(di => new { di.DoctorId, di.InsuranceId, di.Deleted })
+            modelBuilder.Entity<InsuranceCo_Doctor>()
+            .HasIndex(di => new { di.DoctorId, di.InsuranceCoId, di.Deleted })
             .IsUnique();
 
         }

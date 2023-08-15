@@ -37,12 +37,12 @@ namespace Referral_Doctor.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Insurances",
+                name: "InsuranceCompanies",
                 columns: table => new
                 {
-                    InsuranceId = table.Column<int>(type: "int", nullable: false)
+                    InsuranceCoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InsuranceName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InsuranceCoName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Deleted = table.Column<bool>(type: "bit", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -52,7 +52,7 @@ namespace Referral_Doctor.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Insurances", x => x.InsuranceId);
+                    table.PrimaryKey("PK_InsuranceCompanies", x => x.InsuranceCoId);
                 });
 
             migrationBuilder.CreateTable(
@@ -176,13 +176,13 @@ namespace Referral_Doctor.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DoctorInsurances",
+                name: "InsuranceCo_Doctor",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
-                    InsuranceId = table.Column<int>(type: "int", nullable: false),
+                    InsuranceCoId = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Deleted = table.Column<bool>(type: "bit", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -192,18 +192,18 @@ namespace Referral_Doctor.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctorInsurances", x => x.Id);
+                    table.PrimaryKey("PK_InsuranceCo_Doctor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DoctorInsurances_Doctors_DoctorId",
+                        name: "FK_InsuranceCo_Doctor_Doctors_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "DoctorId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DoctorInsurances_Insurances_InsuranceId",
-                        column: x => x.InsuranceId,
-                        principalTable: "Insurances",
-                        principalColumn: "InsuranceId",
+                        name: "FK_InsuranceCo_Doctor_InsuranceCompanies_InsuranceCoId",
+                        column: x => x.InsuranceCoId,
+                        principalTable: "InsuranceCompanies",
+                        principalColumn: "InsuranceCoId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -220,18 +220,6 @@ namespace Referral_Doctor.Migrations
                 filter: "[Deleted] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DoctorInsurances_DoctorId_InsuranceId_Deleted",
-                table: "DoctorInsurances",
-                columns: new[] { "DoctorId", "InsuranceId", "Deleted" },
-                unique: true,
-                filter: "[Deleted] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DoctorInsurances_InsuranceId",
-                table: "DoctorInsurances",
-                column: "InsuranceId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Doctors_SpecialtyId",
                 table: "Doctors",
                 column: "SpecialtyId");
@@ -240,6 +228,18 @@ namespace Referral_Doctor.Migrations
                 name: "IX_Doctors_TitleId",
                 table: "Doctors",
                 column: "TitleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InsuranceCo_Doctor_DoctorId_InsuranceCoId_Deleted",
+                table: "InsuranceCo_Doctor",
+                columns: new[] { "DoctorId", "InsuranceCoId", "Deleted" },
+                unique: true,
+                filter: "[Deleted] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InsuranceCo_Doctor_InsuranceCoId",
+                table: "InsuranceCo_Doctor",
+                column: "InsuranceCoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
@@ -261,7 +261,7 @@ namespace Referral_Doctor.Migrations
                 name: "DoctorAddresses");
 
             migrationBuilder.DropTable(
-                name: "DoctorInsurances");
+                name: "InsuranceCo_Doctor");
 
             migrationBuilder.DropTable(
                 name: "Users");
@@ -273,7 +273,7 @@ namespace Referral_Doctor.Migrations
                 name: "Doctors");
 
             migrationBuilder.DropTable(
-                name: "Insurances");
+                name: "InsuranceCompanies");
 
             migrationBuilder.DropTable(
                 name: "Specialties");

@@ -12,7 +12,7 @@ using Referral_Doctor.Models;
 namespace Referral_Doctor.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230809211809_AddTablesToDatabase")]
+    [Migration("20230815033116_AddTablesToDatabase")]
     partial class AddTablesToDatabase
     {
         /// <inheritdoc />
@@ -172,7 +172,7 @@ namespace Referral_Doctor.Migrations
                     b.ToTable("DoctorAddresses");
                 });
 
-            modelBuilder.Entity("Referral_Doctor.Models.DoctorInsurance", b =>
+            modelBuilder.Entity("Referral_Doctor.Models.InsuranceCo_Doctor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -192,7 +192,7 @@ namespace Referral_Doctor.Migrations
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("InsuranceId")
+                    b.Property<int>("InsuranceCoId")
                         .HasColumnType("int");
 
                     b.Property<string>("ModifiedBy")
@@ -206,22 +206,22 @@ namespace Referral_Doctor.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InsuranceId");
+                    b.HasIndex("InsuranceCoId");
 
-                    b.HasIndex("DoctorId", "InsuranceId", "Deleted")
+                    b.HasIndex("DoctorId", "InsuranceCoId", "Deleted")
                         .IsUnique()
                         .HasFilter("[Deleted] IS NOT NULL");
 
-                    b.ToTable("DoctorInsurances");
+                    b.ToTable("InsuranceCo_Doctor");
                 });
 
-            modelBuilder.Entity("Referral_Doctor.Models.Insurance", b =>
+            modelBuilder.Entity("Referral_Doctor.Models.InsuranceCompanies", b =>
                 {
-                    b.Property<int>("InsuranceId")
+                    b.Property<int>("InsuranceCoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InsuranceId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InsuranceCoId"));
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -232,7 +232,7 @@ namespace Referral_Doctor.Migrations
                     b.Property<bool?>("Deleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("InsuranceName")
+                    b.Property<string>("InsuranceCoName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModifiedBy")
@@ -244,9 +244,9 @@ namespace Referral_Doctor.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("InsuranceId");
+                    b.HasKey("InsuranceCoId");
 
-                    b.ToTable("Insurances");
+                    b.ToTable("InsuranceCompanies");
                 });
 
             modelBuilder.Entity("Referral_Doctor.Models.Specialty", b =>
@@ -393,7 +393,7 @@ namespace Referral_Doctor.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("Referral_Doctor.Models.DoctorInsurance", b =>
+            modelBuilder.Entity("Referral_Doctor.Models.InsuranceCo_Doctor", b =>
                 {
                     b.HasOne("Referral_Doctor.Models.Doctor", "Doctor")
                         .WithMany()
@@ -401,15 +401,15 @@ namespace Referral_Doctor.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Referral_Doctor.Models.Insurance", "Insurance")
+                    b.HasOne("Referral_Doctor.Models.InsuranceCompanies", "InsuranceCompanies")
                         .WithMany()
-                        .HasForeignKey("InsuranceId")
+                        .HasForeignKey("InsuranceCoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Doctor");
 
-                    b.Navigation("Insurance");
+                    b.Navigation("InsuranceCompanies");
                 });
 #pragma warning restore 612, 618
         }

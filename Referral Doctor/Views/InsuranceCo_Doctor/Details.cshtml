@@ -1,4 +1,4 @@
-﻿@model Referral_Doctor.Models.Insurance
+﻿@model Referral_Doctor.Models.InsuranceCo_Doctor
 
 @{
     ViewData["Title"] = "Details";
@@ -7,14 +7,20 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Insurance</h4>
+    <h4>InsuranceCo_Doctor</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InsuranceName)
+            @Html.DisplayNameFor(model => model.Doctor)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InsuranceName)
+            @Html.DisplayFor(model => model.Doctor.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.InsuranceCompanies)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.InsuranceCompanies.InsuranceCoId)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Note)
@@ -55,6 +61,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.InsuranceId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

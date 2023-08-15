@@ -12,11 +12,11 @@ using Referral_Doctor.Models;
 namespace Referral_Doctor.Controllers
 {
     [Authorize]
-    public class DoctorInsuranceController : Controller
+    public class InsuranceCo_DoctorController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DoctorInsuranceController(ApplicationDbContext context)
+        public InsuranceCo_DoctorController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -24,21 +24,21 @@ namespace Referral_Doctor.Controllers
         // GET: DoctorInsurance
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.DoctorInsurances.Include(d => d.Doctor).Include(d => d.Insurance);
+            var applicationDbContext = _context.InsuranceCo_Doctor.Include(d => d.Doctor).Include(d => d.InsuranceCompanies);
             return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: DoctorInsurance/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.DoctorInsurances == null)
+            if (id == null || _context.InsuranceCo_Doctor == null)
             {
                 return NotFound();
             }
 
-            var doctorInsurance = await _context.DoctorInsurances
+            var doctorInsurance = await _context.InsuranceCo_Doctor
                 .Include(d => d.Doctor)
-                .Include(d => d.Insurance)
+                .Include(d => d.InsuranceCompanies)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (doctorInsurance == null)
             {
@@ -52,7 +52,7 @@ namespace Referral_Doctor.Controllers
         public IActionResult Create()
         {
             ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "DoctorId");
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "InsuranceId", "InsuranceId");
+            ViewData["InsuranceCoId"] = new SelectList(_context.InsuranceCompanies, "InsuranceCoId", "InsuranceCoId");
             return View();
         }
 
@@ -61,7 +61,7 @@ namespace Referral_Doctor.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DoctorId,InsuranceId,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] DoctorInsurance doctorInsurance)
+        public async Task<IActionResult> Create([Bind("Id,DoctorId,InsuranceCoId,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] InsuranceCo_Doctor doctorInsurance)
         {
             if (ModelState.IsValid)
             {
@@ -80,25 +80,25 @@ namespace Referral_Doctor.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "DoctorId", doctorInsurance.DoctorId);
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "InsuranceId", "InsuranceId", doctorInsurance.InsuranceId);
+            ViewData["InsuranceCoId"] = new SelectList(_context.InsuranceCompanies, "InsuranceCoId", "InsuranceCoId", doctorInsurance.InsuranceCoId);
             return View(doctorInsurance);
         }
 
         // GET: DoctorInsurance/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.DoctorInsurances == null)
+            if (id == null || _context.InsuranceCo_Doctor == null)
             {
                 return NotFound();
             }
 
-            var doctorInsurance = await _context.DoctorInsurances.FindAsync(id);
+            var doctorInsurance = await _context.InsuranceCo_Doctor.FindAsync(id);
             if (doctorInsurance == null)
             {
                 return NotFound();
             }
             ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "DoctorId", doctorInsurance.DoctorId);
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "InsuranceId", "InsuranceId", doctorInsurance.InsuranceId);
+            ViewData["InsuranceCoId"] = new SelectList(_context.InsuranceCompanies, "InsuranceCoId", "InsuranceCoId", doctorInsurance.InsuranceCoId);
             return View(doctorInsurance);
         }
 
@@ -107,7 +107,7 @@ namespace Referral_Doctor.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DoctorId,InsuranceId,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] DoctorInsurance doctorInsurance)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DoctorId,InsuranceCoId,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] InsuranceCo_Doctor doctorInsurance)
         {
             if (id != doctorInsurance.Id)
             {
@@ -123,7 +123,7 @@ namespace Referral_Doctor.Controllers
                     // 然后，将现有记录的 CreatedDateTime 和 CreatedBy 的值分配给编辑后的实体，以确保在编辑操作时这些字段的值不会改变。
                     // 然后，设置 ModifiedDateTime 和 ModifiedBy 字段，将编辑后的实体保存到数据库。
 
-                    var existingDoctorInsurance = await _context.DoctorInsurances
+                    var existingDoctorInsurance = await _context.InsuranceCo_Doctor
                         .AsNoTracking() // Load the existing record without tracking changes
                         .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -157,24 +157,24 @@ namespace Referral_Doctor.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
             }
             ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "DoctorId", doctorInsurance.DoctorId);
-            ViewData["InsuranceId"] = new SelectList(_context.Insurances, "InsuranceId", "InsuranceId", doctorInsurance.InsuranceId);
+            ViewData["InsuranceCoId"] = new SelectList(_context.InsuranceCompanies, "InsuranceCoId", "InsuranceCoId", doctorInsurance.InsuranceCoId);
             return View(doctorInsurance);
         }
 
         // GET: DoctorInsurance/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.DoctorInsurances == null)
+            if (id == null || _context.InsuranceCo_Doctor == null)
             {
                 return NotFound();
             }
 
-            var doctorInsurance = await _context.DoctorInsurances
+            var doctorInsurance = await _context.InsuranceCo_Doctor
                 .Include(d => d.Doctor)
-                .Include(d => d.Insurance)
+                .Include(d => d.InsuranceCompanies)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (doctorInsurance == null)
             {
@@ -189,14 +189,14 @@ namespace Referral_Doctor.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.DoctorInsurances == null)
+            if (_context.InsuranceCo_Doctor == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.DoctorInsurances'  is null.");
             }
-            var doctorInsurance = await _context.DoctorInsurances.FindAsync(id);
+            var doctorInsurance = await _context.InsuranceCo_Doctor.FindAsync(id);
             if (doctorInsurance != null)
             {
-                _context.DoctorInsurances.Remove(doctorInsurance);
+                _context.InsuranceCo_Doctor.Remove(doctorInsurance);
             }
             
             await _context.SaveChangesAsync();
@@ -205,7 +205,7 @@ namespace Referral_Doctor.Controllers
 
         private bool DoctorInsuranceExists(int id)
         {
-          return (_context.DoctorInsurances?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.InsuranceCo_Doctor?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

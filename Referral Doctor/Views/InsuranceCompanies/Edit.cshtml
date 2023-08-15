@@ -1,4 +1,4 @@
-﻿@model Referral_Doctor.Models.DoctorInsurance
+﻿@model Referral_Doctor.Models.InsuranceCompanies
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,22 +6,17 @@
 
 <h1>Edit</h1>
 
-<h4>DoctorInsurance</h4>
+<h4>InsuranceCompanies</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="InsuranceCoId" />
             <div class="form-group">
-                <label asp-for="DoctorId" class="control-label"></label>
-                <select asp-for="DoctorId" class="form-control" asp-items="ViewBag.DoctorId"></select>
-                <span asp-validation-for="DoctorId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InsuranceId" class="control-label"></label>
-                <select asp-for="InsuranceId" class="form-control" asp-items="ViewBag.InsuranceId"></select>
-                <span asp-validation-for="InsuranceId" class="text-danger"></span>
+                <label asp-for="InsuranceCoName" class="control-label"></label>
+                <input asp-for="InsuranceCoName" class="form-control" />
+                <span asp-validation-for="InsuranceCoName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Note" class="control-label"></label>
@@ -52,7 +47,7 @@
         $(document).ready(function () {
             // 获取表单的原始值
             var originalFormValues = {
-                SpecialtyName: $("#SpecialtyName").val(),
+                InsuranceCoName: $("#InsuranceCoName").val(),
                 Note: $("#Note").val(),
                 Deleted: $("#Deleted").val()
             };
@@ -60,7 +55,7 @@
             // 检查字段变化
             function checkFormChanges() {
                 var currentFormValues = {
-                    SpecialtyName: $("#SpecialtyName").val(),
+                    InsuranceCoName: $("#InsuranceCoName").val(),
                     Note: $("#Note").val(),
                     Deleted: $("#Deleted").val()
                 };
@@ -75,7 +70,7 @@
             }
 
             // 监听字段变化事件
-            $("#SpecialtyName, #Note, #Deleted").change(function () {
+            $("#InsuranceCoName, #Note, #Deleted").change(function () {
                 updateButtonState();
             });
 
