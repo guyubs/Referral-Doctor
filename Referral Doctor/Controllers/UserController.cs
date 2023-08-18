@@ -57,20 +57,34 @@ namespace Referral_Doctor.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserName,Password,Email,Phone,Note")] User user)
+        public async Task<IActionResult> Create([Bind("Id,UserName,Password,PasswordSalt,FirstName,LastName,DateOfBirth,PrimaryEmail,SecondaryEmail,Phone,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] User user)
         {
             if (ModelState.IsValid)
             {
-
                 // 删除输入字符串末尾的空格
                 if (!string.IsNullOrWhiteSpace(user.UserName)) // UserName 为前端的用户输入
                 {
                     user.UserName = user.UserName.TrimEnd();
                 }
 
-                if (!string.IsNullOrWhiteSpace(user.Email))
+                if (!string.IsNullOrWhiteSpace(user.FirstName))
                 {
-                    user.Email = user.Email.TrimEnd();
+                    user.FirstName = user.FirstName.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(user.LastName))
+                {
+                    user.LastName = user.LastName.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(user.PrimaryEmail))
+                {
+                    user.PrimaryEmail = user.PrimaryEmail.TrimEnd();
+                }
+
+                if (!string.IsNullOrWhiteSpace(user.SecondaryEmail))
+                {
+                    user.SecondaryEmail = user.SecondaryEmail.TrimEnd();
                 }
 
                 if (!string.IsNullOrWhiteSpace(user.Phone))
@@ -78,6 +92,15 @@ namespace Referral_Doctor.Controllers
                     user.Phone = user.Phone.TrimEnd();
                 }
 
+                // 设置 CreatedDateTime 属性为当前时间
+                user.CreatedDateTime = DateTime.Now;
+
+                // 设置 CreatedBy
+                // user.CreatedBy = HttpContext.Request.Cookies["Username"];
+                user.CreatedBy = User.Identity.Name;
+
+                // 设置 页面提示信息
+                TempData["success"] = "Created successfully!";
 
                 _context.Add(user);
                 await _context.SaveChangesAsync();
@@ -107,7 +130,7 @@ namespace Referral_Doctor.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,Password,Email,Phone,Note")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,Password,PasswordSalt,FirstName,LastName,DateOfBirth,PrimaryEmail,SecondaryEmail,Phone,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] User user)
         {
             if (id != user.Id)
             {
@@ -118,8 +141,33 @@ namespace Referral_Doctor.Controllers
             {
                 try
                 {
+                    // 实现只修改Edit的内容保持其他内容不变。
+                    // 在这个示例中，AsNoTracking() 方法用于从数据库中加载现有记录，但不会跟踪其更改。
+                    // 然后，将现有记录的 CreatedDateTime 和 CreatedBy 的值分配给编辑后的实体，以确保在编辑操作时这些字段的值不会改变。
+                    // 然后，设置 ModifiedDateTime 和 ModifiedBy 字段，将编辑后的实体保存到数据库。
+
+                    var existingUser = await _context.Users
+                    .AsNoTracking() // Load the existing record without tracking changes
+                    .FirstOrDefaultAsync(m => m.Id == id);
+
+                    if (existingUser == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Assign the values of CreatedDateTime and CreatedBy from the existing record
+                    user.CreatedDateTime = existingUser.CreatedDateTime;
+                    user.CreatedBy = existingUser.CreatedBy;
+
+                    // Set ModifiedDateTime and ModifiedBy properties
+                    user.ModifiedDateTime = DateTime.Now;
+                    user.ModifiedBy = User.Identity.Name;
+
                     _context.Update(user);
                     await _context.SaveChangesAsync();
+
+                    TempData["success"] = "Edited successfully!";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -132,7 +180,7 @@ namespace Referral_Doctor.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
             }
             return View(user);
         }

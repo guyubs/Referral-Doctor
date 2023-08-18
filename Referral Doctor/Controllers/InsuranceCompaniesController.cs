@@ -72,7 +72,7 @@ namespace Referral_Doctor.Controllers
                 insurance.CreatedDateTime = DateTime.Now;
 
                 // 设置 CreatedBy
-                insurance.CreatedBy = HttpContext.Request.Cookies["Username"];
+                insurance.CreatedBy = User.Identity.Name;
 
                 // 设置 页面提示信息
                 TempData["success"] = "Created successfully!";
@@ -136,7 +136,7 @@ namespace Referral_Doctor.Controllers
 
                     // Set ModifiedDateTime and ModifiedBy properties
                     insurance.ModifiedDateTime = DateTime.Now;
-                    insurance.ModifiedBy = HttpContext.Request.Cookies["Username"];
+                    insurance.ModifiedBy = User.Identity.Name;
 
                     _context.Update(insurance);
                     await _context.SaveChangesAsync();

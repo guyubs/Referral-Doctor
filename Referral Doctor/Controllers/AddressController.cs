@@ -102,7 +102,7 @@ namespace Referral_Doctor.Controllers
                 address.CreatedDateTime = DateTime.Now;
 
                 // 设置 CreatedBy
-                address.CreatedBy = HttpContext.Request.Cookies["Username"];
+                address.CreatedBy = User.Identity.Name;
 
                 // 设置 页面提示信息
                 TempData["success"] = "Created successfully!";
@@ -153,8 +153,8 @@ namespace Referral_Doctor.Controllers
                     // 然后，设置 ModifiedDateTime 和 ModifiedBy 字段，将编辑后的实体保存到数据库。
 
                     var existingAddress = await _context.Addresses
-                .AsNoTracking() // Load the existing record without tracking changes
-                .FirstOrDefaultAsync(m => m.AddressId == id);
+                    .AsNoTracking() // Load the existing record without tracking changes
+                    .FirstOrDefaultAsync(m => m.AddressId == id);
 
                     if (existingAddress == null)
                     {
@@ -167,7 +167,7 @@ namespace Referral_Doctor.Controllers
 
                     // Set ModifiedDateTime and ModifiedBy properties
                     address.ModifiedDateTime = DateTime.Now;
-                    address.ModifiedBy = HttpContext.Request.Cookies["Username"];
+                    address.ModifiedBy = User.Identity.Name;
 
                     _context.Update(address);
                     await _context.SaveChangesAsync();

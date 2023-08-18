@@ -71,7 +71,7 @@ namespace Referral_Doctor.Controllers
                 title.CreatedDateTime = DateTime.Now;
 
                 // 设置 CreatedBy
-                title.CreatedBy = HttpContext.Request.Cookies["Username"];
+                title.CreatedBy = User.Identity.Name;
 
                 // 设置 页面提示信息
                 TempData["success"] = "Created successfully!";
@@ -122,8 +122,8 @@ namespace Referral_Doctor.Controllers
                     // 然后，设置 ModifiedDateTime 和 ModifiedBy 字段，将编辑后的实体保存到数据库。
 
                     var existingTitle = await _context.Titles
-                .AsNoTracking() // Load the existing record without tracking changes
-                .FirstOrDefaultAsync(m => m.TitleId == id);
+                    .AsNoTracking() // Load the existing record without tracking changes
+                    .FirstOrDefaultAsync(m => m.TitleId == id);
 
                     if (existingTitle == null)
                     {
@@ -136,7 +136,7 @@ namespace Referral_Doctor.Controllers
 
                     // Set ModifiedDateTime and ModifiedBy properties
                     title.ModifiedDateTime = DateTime.Now;
-                    title.ModifiedBy = HttpContext.Request.Cookies["Username"];
+                    title.ModifiedBy = User.Identity.Name;
 
                     _context.Update(title);
                     await _context.SaveChangesAsync();

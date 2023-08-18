@@ -101,9 +101,19 @@ namespace Referral_Doctor.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PrimaryEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SecondaryEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -242,9 +252,9 @@ namespace Referral_Doctor.Migrations
                 column: "InsuranceCoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
+                name: "IX_Users_PrimaryEmail",
                 table: "Users",
-                column: "Email",
+                column: "PrimaryEmail",
                 unique: true);
 
             migrationBuilder.CreateIndex(

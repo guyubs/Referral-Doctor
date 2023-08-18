@@ -24,9 +24,34 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="PasswordSalt" class="control-label"></label>
+                <input asp-for="PasswordSalt" class="form-control" />
+                <span asp-validation-for="PasswordSalt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrimaryEmail" class="control-label"></label>
+                <input asp-for="PrimaryEmail" class="form-control" />
+                <span asp-validation-for="PrimaryEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondaryEmail" class="control-label"></label>
+                <input asp-for="SecondaryEmail" class="form-control" />
+                <span asp-validation-for="SecondaryEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Phone" class="control-label"></label>
@@ -37,6 +62,11 @@
                 <label asp-for="Note" class="control-label"></label>
                 <input asp-for="Note" class="form-control" />
                 <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Deleted" class="control-label">Deleted: Please inpute true or false</label>
+                <input asp-for="Deleted" class="form-control" />
+                <span asp-validation-for="Deleted" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" id="saveButton" value="Save" class="btn btn-primary" />
@@ -58,7 +88,15 @@
         $(document).ready(function () {
             // 获取表单的原始值
             var originalFormValues = {
-                SpecialtyName: $("#SpecialtyName").val(),
+                UserName: $("#UserName").val(),
+                Password: $("#Password").val(),
+                PasswordSalt: $("#PasswordSalt").val(),
+                FirstName: $("#FirstName").val(),
+                LastName: $("#LastName").val(),
+                DateOfBirth: $("#DateOfBirth").val(),
+                PrimaryEmail: $("#PrimaryEmail").val(),
+                SecondaryEmail: $("#SecondaryEmail").val(),
+                Phone: $("#Phone").val(),
                 Note: $("#Note").val(),
                 Deleted: $("#Deleted").val()
             };
@@ -66,7 +104,15 @@
             // 检查字段变化
             function checkFormChanges() {
                 var currentFormValues = {
-                    SpecialtyName: $("#SpecialtyName").val(),
+                    UserName: $("#UserName").val(),
+                    Password: $("#Password").val(),
+                    PasswordSalt: $("#PasswordSalt").val(),
+                    FirstName: $("#FirstName").val(),
+                    LastName: $("#LastName").val(),
+                    DateOfBirth: $("#DateOfBirth").val(),
+                    PrimaryEmail: $("#PrimaryEmail").val(),
+                    SecondaryEmail: $("#SecondaryEmail").val(),
+                    Phone: $("#Phone").val(),
                     Note: $("#Note").val(),
                     Deleted: $("#Deleted").val()
                 };
@@ -81,7 +127,7 @@
             }
 
             // 监听字段变化事件
-            $("#SpecialtyName, #Note, #Deleted").change(function () {
+            $("#UserName, #Password, #FirstName, #LastName, #DateOfBirth, #PrimaryEmail, #SecondaryEmail, #Phone, #Note, #Deleted").change(function () {
                 updateButtonState();
             });
 

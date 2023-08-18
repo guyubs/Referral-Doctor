@@ -28,7 +28,7 @@ namespace Referral_Doctor.Controllers
                 {
                     ModelState.AddModelError("UserName", "用户名已经存在");
                 }
-                if (_context.Users.Any(u => u.Email == user.Email))
+                if (_context.Users.Any(u => u.PrimaryEmail == user.PrimaryEmail))
                 {
                     ModelState.AddModelError("Email", "该电子邮件已经被注册");
                 }

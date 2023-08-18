@@ -86,7 +86,7 @@ namespace Referral_Doctor.Controllers
                 doctor.CreatedDateTime = DateTime.Now;
 
                 // 设置 CreatedBy
-                doctor.CreatedBy = HttpContext.Request.Cookies["Username"];
+                doctor.CreatedBy = User.Identity.Name;
 
                 // 设置 页面提示信息
                 TempData["success"] = "Created successfully!";
@@ -155,7 +155,7 @@ namespace Referral_Doctor.Controllers
 
                     // Set ModifiedDateTime and ModifiedBy properties
                     doctor.ModifiedDateTime = DateTime.Now;
-                    doctor.ModifiedBy = HttpContext.Request.Cookies["Username"];
+                    doctor.ModifiedBy = User.Identity.Name;
 
                     _context.Update(doctor);
                     await _context.SaveChangesAsync();

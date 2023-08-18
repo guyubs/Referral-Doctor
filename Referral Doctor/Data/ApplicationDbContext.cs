@@ -32,7 +32,7 @@ namespace Referral_Doctor.Models
             modelBuilder.Entity<User>();
             // 定义UserName Email唯一
             modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
-            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.PrimaryEmail).IsUnique();
 
 
             modelBuilder.Entity<Doctor>()
