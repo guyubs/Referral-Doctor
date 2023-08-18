@@ -14,7 +14,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
+                <input id="UserName" asp-for="UserName" class="form-control" required /> <!-- 启用JS 不能有空格 -->
+                <span id="userNameError" class="text-danger"></span> <!-- 错误提示 -->
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -75,4 +76,25 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @* 用户名不能包含空格 *@
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var userNameInput = document.getElementById('UserName');
+            var form = document.querySelector('form');
+
+            userNameInput.addEventListener('input', function () {
+                var userName = userNameInput.value;
+                var errorMessage = document.getElementById('userNameError');
+
+                if (userName.includes(' ')) {
+                    errorMessage.textContent = '用户名不能包含空格';
+                    form.classList.add('was-validated');
+                } else {
+                    errorMessage.textContent = '';
+                    form.classList.remove('was-validated');
+                }
+            });
+        });
+    </script>
 }

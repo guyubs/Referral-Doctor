@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Referral_Doctor.Models;
 
@@ -67,6 +68,14 @@ namespace Referral_Doctor.Controllers
                     title.TitleName = title.TitleName.TrimEnd();
                 }
 
+                // check duplicate TitleName
+                if (_context.Titles.Any(t => t.TitleName == title.TitleName))
+                {
+                    ModelState.AddModelError("TitleName", "TitleName already exists.");
+                    return View(title);
+                }
+
+
                 // 设置 CreatedDateTime 属性为当前时间
                 title.CreatedDateTime = DateTime.Now;
 
@@ -128,6 +137,13 @@ namespace Referral_Doctor.Controllers
                     if (existingTitle == null)
                     {
                         return NotFound();
+                    }
+
+                    // check duplicate
+                    if (_context.Titles.Any(t => t.TitleId != id && t.TitleName == title.TitleName))
+                    {
+                        ModelState.AddModelError("TitleName", "TitleName already exists.");
+                        return View(title);
                     }
 
                     // Assign the values of CreatedDateTime and CreatedBy from the existing record

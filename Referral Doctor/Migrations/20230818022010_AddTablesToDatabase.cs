@@ -42,7 +42,7 @@ namespace Referral_Doctor.Migrations
                 {
                     InsuranceCoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InsuranceCoName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InsuranceCoName = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Deleted = table.Column<bool>(type: "bit", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -61,7 +61,7 @@ namespace Referral_Doctor.Migrations
                 {
                     SpecialtyId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SpecialtyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SpecialtyName = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Deleted = table.Column<bool>(type: "bit", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -80,7 +80,7 @@ namespace Referral_Doctor.Migrations
                 {
                     TitleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TitleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TitleName = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Deleted = table.Column<bool>(type: "bit", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -250,6 +250,25 @@ namespace Referral_Doctor.Migrations
                 name: "IX_InsuranceCo_Doctor_InsuranceCoId",
                 table: "InsuranceCo_Doctor",
                 column: "InsuranceCoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InsuranceCompanies_InsuranceCoName",
+                table: "InsuranceCompanies",
+                column: "InsuranceCoName",
+                unique: true,
+                filter: "[InsuranceCoName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Specialties_SpecialtyName",
+                table: "Specialties",
+                column: "SpecialtyName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Titles_TitleName",
+                table: "Titles",
+                column: "TitleName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_PrimaryEmail",

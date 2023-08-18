@@ -67,6 +67,13 @@ namespace Referral_Doctor.Controllers
                     insurance.InsuranceCoName = insurance.InsuranceCoName.TrimEnd();
                 }
 
+                // check duplicate
+                if (_context.InsuranceCompanies.Any(t => t.InsuranceCoName == insurance.InsuranceCoName))
+                {
+                    ModelState.AddModelError("InsuranceCoName", "InsuranceCoName already exists.");
+                    return View(insurance);
+                }
+
 
                 // 设置 CreatedDateTime 属性为当前时间
                 insurance.CreatedDateTime = DateTime.Now;
@@ -122,12 +129,19 @@ namespace Referral_Doctor.Controllers
                     // 然后，设置 ModifiedDateTime 和 ModifiedBy 字段，将编辑后的实体保存到数据库。
 
                     var existingInsurance = await _context.InsuranceCompanies
-                .AsNoTracking() // Load the existing record without tracking changes
-                .FirstOrDefaultAsync(m => m.InsuranceCoId == id);
+                    .AsNoTracking() // Load the existing record without tracking changes
+                    .FirstOrDefaultAsync(m => m.InsuranceCoId == id);
 
                     if (existingInsurance == null)
                     {
                         return NotFound();
+                    }
+
+                    // check duplicate
+                    if (_context.InsuranceCompanies.Any(t => t.InsuranceCoId != id && t.InsuranceCoName == insurance.InsuranceCoName))
+                    {
+                        ModelState.AddModelError("InsuranceCoName", "InsuranceCoName already exists.");
+                        return View(insurance);
                     }
 
                     // Assign the values of CreatedDateTime and CreatedBy from the existing record

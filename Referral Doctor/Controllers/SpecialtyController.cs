@@ -67,6 +67,13 @@ namespace Referral_Doctor.Controllers
                     specialty.SpecialtyName = specialty.SpecialtyName.TrimEnd();
                 }
 
+                // check duplicate
+                if (_context.Specialties.Any(t => t.SpecialtyName == specialty.SpecialtyName))
+                {
+                    ModelState.AddModelError("SpecialtyName", "SpecialtyName already exists.");
+                    return View(specialty);
+                }
+
 
                 // 设置 CreatedDateTime 属性为当前时间
                 specialty.CreatedDateTime = DateTime.Now;
@@ -129,6 +136,13 @@ namespace Referral_Doctor.Controllers
                     if (existingSpecialty == null)
                     {
                         return NotFound();
+                    }
+
+                    // check duplicate
+                    if (_context.Specialties.Any(t => t.SpecialtyId != id && t.SpecialtyName == specialty.SpecialtyName))
+                    {
+                        ModelState.AddModelError("SpecialtyName", "SpecialtyName already exists.");
+                        return View(specialty);
                     }
 
                     // Assign the values of CreatedDateTime and CreatedBy from the existing record

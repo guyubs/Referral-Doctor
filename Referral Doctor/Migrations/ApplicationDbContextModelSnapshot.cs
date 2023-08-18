@@ -230,7 +230,7 @@ namespace Referral_Doctor.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("InsuranceCoName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
@@ -242,6 +242,10 @@ namespace Referral_Doctor.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("InsuranceCoId");
+
+                    b.HasIndex("InsuranceCoName")
+                        .IsUnique()
+                        .HasFilter("[InsuranceCoName] IS NOT NULL");
 
                     b.ToTable("InsuranceCompanies");
                 });
@@ -274,9 +278,12 @@ namespace Referral_Doctor.Migrations
 
                     b.Property<string>("SpecialtyName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("SpecialtyId");
+
+                    b.HasIndex("SpecialtyName")
+                        .IsUnique();
 
                     b.ToTable("Specialties");
                 });
@@ -309,9 +316,12 @@ namespace Referral_Doctor.Migrations
 
                     b.Property<string>("TitleName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("TitleId");
+
+                    b.HasIndex("TitleName")
+                        .IsUnique();
 
                     b.ToTable("Titles");
                 });

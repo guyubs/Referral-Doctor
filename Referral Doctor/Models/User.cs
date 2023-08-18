@@ -30,9 +30,12 @@ public class User
 
     [Required(ErrorMessage = "请输入电子邮件")]
     [EmailAddress(ErrorMessage = "请输入有效的电子邮件地址")]
+    [RegularExpression(@"^(?!.*\.com\.com$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "请输入有效的电子邮件地址")] // 检测.com.com的情况
     public string? PrimaryEmail { get; set; }
 
     [EmailAddress(ErrorMessage = "请输入有效的电子邮件地址")]
+    [RegularExpression(@"^(?!.*\.com\.com$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "请输入有效的电子邮件地址")]
+    
     public string? SecondaryEmail { get; set; }
 
     // [RegularExpression(@"^1[3-9]\d{9}$", ErrorMessage = "请输入有效的手机号")]
