@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // AddTablesToDatabase 是迁移的名字
 // 当数据迁移建立好后， run: update-database, 开始迁移
 // 若在数据迁移之后有增加新的table, 则需run Add-Migration NewTableName, 然后 update-database
+// For example: add-migration LoginHistory, 然后 update-database
 
 
 

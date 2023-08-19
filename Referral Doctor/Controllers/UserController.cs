@@ -72,16 +72,6 @@ namespace Referral_Doctor.Controllers
                     user.LastName = user.LastName.TrimEnd();
                 }
 
-                if (!string.IsNullOrWhiteSpace(user.PrimaryEmail))
-                {
-                    user.PrimaryEmail = user.PrimaryEmail.TrimEnd();
-                }
-
-                if (!string.IsNullOrWhiteSpace(user.SecondaryEmail))
-                {
-                    user.SecondaryEmail = user.SecondaryEmail.TrimEnd();
-                }
-
                 if (!string.IsNullOrWhiteSpace(user.Phone))
                 {
                     user.Phone = user.Phone.TrimEnd();

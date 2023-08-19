@@ -26,6 +26,7 @@ namespace Referral_Doctor.Models
 
         public DbSet<InsuranceCo_Doctor> InsuranceCo_Doctor { get; set; } // 白色字体对应控制器中的'_context.InsuranceCo_Doctor'
 
+        public DbSet<LoginHistory> LoginHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
