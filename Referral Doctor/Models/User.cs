@@ -1,10 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+public enum UserRole
+{
+    Normal,
+    Admin,
+    Developer
+}
+
 public class User
 {
     [Key]
     public int Id { get; set; }
+
+    [Required(ErrorMessage = "请选择用户级别")]
+    public UserRole Role { get; set; } = UserRole.Normal;  // 用户级别， 默认Normal
 
     [Required(ErrorMessage = "请输入用户名")]
     [StringLength(50, MinimumLength = 1, ErrorMessage = "用户名长度必须在2到50个字符之间")]

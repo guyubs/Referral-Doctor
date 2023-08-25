@@ -12,8 +12,8 @@ using Referral_Doctor.Models;
 namespace Referral_Doctor.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230818204839_LoginHistory")]
-    partial class LoginHistory
+    [Migration("20230824215658_AddTablesToDatabase")]
+    partial class AddTablesToDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -407,6 +407,9 @@ namespace Referral_Doctor.Migrations
                     b.Property<string>("PrimaryEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecondaryEmail")
                         .HasColumnType("nvarchar(max)");

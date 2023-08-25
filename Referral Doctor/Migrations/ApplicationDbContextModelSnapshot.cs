@@ -405,6 +405,9 @@ namespace Referral_Doctor.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecondaryEmail")
                         .HasColumnType("nvarchar(max)");
 

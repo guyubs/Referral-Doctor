@@ -57,7 +57,7 @@ namespace Referral_Doctor.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserName,Password,PasswordSalt,FirstName,LastName,DateOfBirth,PrimaryEmail,SecondaryEmail,Phone,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Role,UserName,Password,PasswordSalt,FirstName,LastName,DateOfBirth,PrimaryEmail,SecondaryEmail,Phone,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -115,7 +115,7 @@ namespace Referral_Doctor.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,Password,PasswordSalt,FirstName,LastName,DateOfBirth,PrimaryEmail,SecondaryEmail,Phone,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Role,UserName,Password,PasswordSalt,FirstName,LastName,DateOfBirth,PrimaryEmail,SecondaryEmail,Phone,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] User user)
         {
             if (id != user.Id)
             {

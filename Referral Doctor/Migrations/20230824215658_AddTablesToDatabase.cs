@@ -56,6 +56,21 @@ namespace Referral_Doctor.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LoginHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Ip_addr = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoginHistory", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Specialties",
                 columns: table => new
                 {
@@ -99,6 +114,7 @@ namespace Referral_Doctor.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Role = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -291,6 +307,9 @@ namespace Referral_Doctor.Migrations
 
             migrationBuilder.DropTable(
                 name: "InsuranceCo_Doctor");
+
+            migrationBuilder.DropTable(
+                name: "LoginHistory");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -20,6 +20,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.InsuranceCoId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.InsuranceCoName)
             </th>
             <th>
@@ -44,35 +47,39 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
+        @foreach (var item in Model) {
+            <tr>
+                @* <th> 表示粗体，<th>正常字体 *@
+                <td>
+                    @Html.DisplayFor(modelItem => item.InsuranceCoId) 
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.InsuranceCoName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Note)
-            </td>
-            <td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Deleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedDateTime)
-            </td>
-            <td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedDateTime)
+                </td>
+                <td>
                     <a asp-action="Edit" asp-route-id="@item.InsuranceCoId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.InsuranceCoId">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.InsuranceCoId">Delete (Only for test)</a>
-            </td>
-        </tr>
+                </td>
+            </tr>
 }
     </tbody>
 </table>

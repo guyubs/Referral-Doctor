@@ -1,0 +1,92 @@
+﻿@model NewDoctorViewModel
+@* 需要新建NewDoctorViewModel才能在一个View显示/保存连个数据库模型的信息 *@
+
+
+@* 此段代码可以在页面上显示提示信息 *@
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">@TempData["success"]</div>
+}
+
+<form asp-controller="NewDoctor" asp-action="Index" method="post">
+
+    <div class="form-group">
+        <label asp-for="Doctor.FirstName"></label>
+        <input asp-for="Doctor.FirstName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Doctor.LastName"></label>
+        <input asp-for="Doctor.LastName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Doctor.Contact" class="control-label">Cell Phone</label>
+        <input asp-for="Doctor.Contact" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Doctor.Note" class="control-label"></label>
+        <input asp-for="Doctor.Note" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Doctor.TitleId" class="control-label">Title</label>
+        <select asp-for="Doctor.TitleId" class="form-control" asp-items="ViewBag.TitleId"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Doctor.SpecialtyId" class="control-label">Specialty</label>
+        <select asp-for="Doctor.SpecialtyId" class="form-control" asp-items="ViewBag.SpecialtyId"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="InsuranceCompanies.InsuranceCoId" class="control-label">Insurance Company</label>
+        <select asp-for="InsuranceCompanies.InsuranceCoId" class="form-control" asp-items="ViewBag.InsuranceCoId"></select>
+    </div>
+
+
+
+    <!-- 其他Doctor字段 -->
+
+
+    <div class="form-group">
+        <label asp-for="Address.Street1"></label>
+        <input asp-for="Address.Street1" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Street2"></label>
+        <input asp-for="Address.Street2" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.City"></label>
+        <input asp-for="Address.City" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.State"></label>
+        <input asp-for="Address.State" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Zip"></label>
+        <input asp-for="Address.Zip" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Tel">Office Tel</label>
+        <input asp-for="Address.Tel" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Fax"></label>
+        <input asp-for="Address.Fax" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Note"></label>
+        <input asp-for="Address.Note" class="form-control" />
+    </div>
+
+
+    <!-- 其他Address字段 -->
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+
+<div>
+    <ul>
+        <li><a href="@Url.Action("Index", "Panel")">Back to Main Panel</a></li>
+    </ul>
+</div>
