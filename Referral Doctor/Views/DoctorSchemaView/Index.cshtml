@@ -160,15 +160,16 @@
 
         var field = $(this).data('field'); // 获取data-field属性值
         var value = $(this).val();
-        var idx = $(this).closest('thead').find('th[data-field="' + field + '"]').index(); // 在thead中查找列序号索引
+        var idx = $(this).closest('th').index();
+
 
         filterTable(idx, value);
 
     })
 
+
     // 过滤函数
     function filterTable(idx, value) {
-
         console.log("Filtering by index:", idx);
         console.log("Filtering by value:", value);
 
@@ -177,14 +178,14 @@
 
             console.log("Value in current row:", tdVal);
 
-            if (value === "" || tdVal === value) {
+            if (value === "" || tdVal === value || (value === "null" && tdVal === "")) {
                 $(this).show();
             } else {
                 $(this).hide();
             }
         })
-
     }
+
 
 
     // 重置筛选
