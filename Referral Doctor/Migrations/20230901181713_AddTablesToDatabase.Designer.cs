@@ -12,7 +12,7 @@ using Referral_Doctor.Models;
 namespace Referral_Doctor.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230824215658_AddTablesToDatabase")]
+    [Migration("20230901181713_AddTablesToDatabase")]
     partial class AddTablesToDatabase
     {
         /// <inheritdoc />

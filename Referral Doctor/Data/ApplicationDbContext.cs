@@ -94,7 +94,6 @@ namespace Referral_Doctor.Models
             modelBuilder.Entity<InsuranceCo_Doctor>()
             .HasIndex(di => new { di.DoctorId, di.InsuranceCoId, di.Deleted })
             .IsUnique();
-
         }
 
     }

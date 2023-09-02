@@ -1,0 +1,196 @@
+﻿<!-- 在头部引入jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+@model List<DoctorSchemaViewModel>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">@TempData["success"]</div>
+}
+
+<button id="clearFilter">Clear Filter</button>
+<table>
+
+    <thead>
+        <tr>
+            <th>
+                <select class="filter" data-field="FirstName">
+                    <option value="">First Name</option>
+                    @foreach (var name in Model.Select(x => x.FirstName).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="filter" data-field="LastName">
+                    <option value="">Last Name</option>
+                    @foreach (var name in Model.Select(x => x.LastName).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="filter" data-field="TitleName">
+                    <option value="">Title</option>
+                    @foreach (var name in Model.Select(x => x.TitleName).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <
+            <th>
+                <select class="filter" data-field="SpecialtyName">
+                    <option value="">Specialty</option>
+                    @foreach (var name in Model.Select(x => x.SpecialtyName).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="filter" data-field="InsuranceCoName">
+                    <option value="">Insurance Company</option>
+                    @foreach (var name in Model.Select(x => x.InsuranceCoName).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="filter" data-field="Street1">
+                    <option value="">Street1</option>
+                    @foreach (var name in Model.Select(x => x.Street1).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="filter" data-field="Street2">
+                    <option value="">Street2</option>
+                    @foreach (var name in Model.Select(x => x.Street2).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="filter" data-field="City">
+                    <option value="">City</option>
+                    @foreach (var name in Model.Select(x => x.City).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="filter" data-field="State">
+                    <option value="">State</option>
+                    @foreach (var name in Model.Select(x => x.State).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="filter" data-field="Zip">
+                    <option value="">Zip</option>
+                    @foreach (var name in Model.Select(x => x.Zip).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="filter" data-field="Tel">
+                    <option value="">Tel</option>
+                    @foreach (var name in Model.Select(x => x.Tel).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="filter" data-field="Fax">
+                    <option value="">Fax</option>
+                    @foreach (var name in Model.Select(x => x.Fax).Distinct())
+                    {
+                        <option>@name</option>
+                    }
+                </select>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.TitleName</td>
+                <td>@item.SpecialtyName</td>
+                <td>@item.InsuranceCoName</td>
+                <td>@item.Street1</td>
+                <td>@item.Street2</td>
+                <td>@item.City</td>
+                <td>@item.State</td>
+                <td>@item.Zip</td>
+                <td>@item.Tel</td>
+                <td>@item.Fax</td>
+            </tr>
+
+        }
+
+    </tbody>
+
+</table>
+
+
+
+<script>
+    // 下拉change事件
+    $('.filter').change(function () {
+
+        var field = $(this).data('field'); // 获取data-field属性值
+        var value = $(this).val();
+        var idx = $(this).closest('thead').find('th[data-field="' + field + '"]').index(); // 在thead中查找列序号索引
+
+        filterTable(idx, value);
+
+    })
+
+    // 过滤函数
+    function filterTable(idx, value) {
+
+        console.log("Filtering by index:", idx);
+        console.log("Filtering by value:", value);
+
+        $('tbody tr').each(function () {
+            var tdVal = $(this).find('td').eq(idx).text();
+
+            console.log("Value in current row:", tdVal);
+
+            if (value === "" || tdVal === value) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        })
+
+    }
+
+
+    // 重置筛选
+    $('#clearFilter').click(function () {
+        $('.filter').val("");
+        $('tbody tr').show();
+    })
+</script>
+
