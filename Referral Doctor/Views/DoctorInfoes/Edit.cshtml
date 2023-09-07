@@ -1,0 +1,123 @@
+﻿@model Referral_Doctor.Models.DoctorInfo
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>DoctorInfo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DoctorID" />
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">First Name</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Last Name</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cell" class="control-label">Cell Phone</label>
+                <input asp-for="Cell" class="form-control" />
+                <span asp-validation-for="Cell" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TitleName" class="control-label">Title</label>
+                <input asp-for="TitleName" class="form-control" />
+                <span asp-validation-for="TitleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecialtyName" class="control-label">Specialty</label>
+                <input asp-for="SpecialtyName" class="form-control" />
+                <span asp-validation-for="SpecialtyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InsuranceCoName" class="control-label">Insurance Company</label>
+                <input asp-for="InsuranceCoName" class="form-control" />
+                <span asp-validation-for="InsuranceCoName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Deleted" class="control-label">Please use True or False</label>
+                <input asp-for="Deleted" class="form-control" />
+                <span asp-validation-for="Deleted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="saveButton" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@* 若无修改，则不能点击Save *@
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // 获取表单的原始值
+            var originalFormValues = {
+                FirstName: $("#FirstName").val(),
+                LastName: $("#LastName").val(),
+                Cell: $("#Cell").val(),
+                TitleName: $("#TitleName").val(),
+                SpecialtyName: $("#SpecialtyName").val(),
+                InsuranceCoName: $("#InsuranceCoName").val(),
+                Address: $("#Address").val(),
+                Note: $("#Note").val(),
+                Deleted: $("#Deleted").val()
+            };
+
+            // 检查字段变化
+            function checkFormChanges() {
+                var currentFormValues = {
+                    FirstName: $("#FirstName").val(),
+                    LastName: $("#LastName").val(),
+                    Cell: $("#Cell").val(),
+                    TitleName: $("#TitleName").val(),
+                    SpecialtyName: $("#SpecialtyName").val(),
+                    InsuranceCoName: $("#InsuranceCoName").val(),
+                    Address: $("#Address").val(),
+                    Note: $("#Note").val(),
+                    Deleted: $("#Deleted").val()
+                };
+
+                return JSON.stringify(currentFormValues) !== JSON.stringify(originalFormValues);
+            }
+
+            // 当字段变化时更新按钮状态
+            function updateButtonState() {
+                var isFormChanged = checkFormChanges();
+                $("#saveButton").prop("disabled", !isFormChanged);
+            }
+
+            // 监听字段变化事件
+            $("#FirstName, #LastName ,#Cell , #TitleName, #SpecialtyName, #InsuranceCoName, #Address, #Note, #Deleted").change(function () {
+                updateButtonState();
+            });
+
+            // 初始化按钮状态
+            updateButtonState();
+        });
+    </script>
+}

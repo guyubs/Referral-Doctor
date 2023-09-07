@@ -12,7 +12,7 @@ using Referral_Doctor.Models;
 namespace Referral_Doctor.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230901181713_AddTablesToDatabase")]
+    [Migration("20230907041212_AddTablesToDatabase")]
     partial class AddTablesToDatabase
     {
         /// <inheritdoc />
@@ -170,6 +170,64 @@ namespace Referral_Doctor.Migrations
                         .HasFilter("[Deleted] IS NOT NULL");
 
                     b.ToTable("DoctorAddresses");
+                });
+
+            modelBuilder.Entity("Referral_Doctor.Models.DoctorInfo", b =>
+                {
+                    b.Property<int>("DoctorID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorID"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cell")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InsuranceCoName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SpecialtyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TitleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DoctorID");
+
+                    b.ToTable("DoctorInfos");
                 });
 
             modelBuilder.Entity("Referral_Doctor.Models.InsuranceCo_Doctor", b =>

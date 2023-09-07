@@ -37,6 +37,31 @@ namespace Referral_Doctor.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DoctorInfos",
+                columns: table => new
+                {
+                    DoctorID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cell = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TitleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SpecialtyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InsuranceCoName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorInfos", x => x.DoctorID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InsuranceCompanies",
                 columns: table => new
                 {
@@ -304,6 +329,9 @@ namespace Referral_Doctor.Migrations
         {
             migrationBuilder.DropTable(
                 name: "DoctorAddresses");
+
+            migrationBuilder.DropTable(
+                name: "DoctorInfos");
 
             migrationBuilder.DropTable(
                 name: "InsuranceCo_Doctor");
