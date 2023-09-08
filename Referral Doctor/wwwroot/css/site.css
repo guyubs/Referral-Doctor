@@ -21,10 +21,3 @@ body {
   margin-bottom: 60px;
 }
 
-<style >
-/* 定义 Address 列的宽度 */
-.address-column {
-    width: 200px; /* 根据需要设置宽度值 */
-}
-
-</style >

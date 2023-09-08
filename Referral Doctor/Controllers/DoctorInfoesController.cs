@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -8,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Referral_Doctor.Models;
+using System.IO;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing; // 这是一个示例库，你可以使用适合你的 PDF 生成库
 
 namespace Referral_Doctor.Controllers
 {
@@ -275,5 +279,41 @@ namespace Referral_Doctor.Controllers
         {
           return (_context.DoctorInfos?.Any(e => e.DoctorID == id)).GetValueOrDefault();
         }
+
+
+
+
+        // 这是生成 PDF 的示例方法
+        public ActionResult Print(string firstName, string lastName, string cell, string titleName, string specialtyName, string insuranceCoName, string address)
+        {
+            // 创建PDF文档
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = "Doctor Information";
+
+            // 添加页面
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont font = new XFont("Verdana", 16, XFontStyle.Bold);
+
+
+            // 添加文本
+            gfx.DrawString("Doctor Information", font, XBrushes.Black, new XRect(0, 0, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("First Name: " + firstName, font, XBrushes.Black, new XRect(0, 50, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Last Name: " + lastName, font, XBrushes.Black, new XRect(0, 70, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Cell Phone: " + cell, font, XBrushes.Black, new XRect(0, 90, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Title: " + titleName, font, XBrushes.Black, new XRect(0, 110, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Specialty: " + specialtyName, font, XBrushes.Black, new XRect(0, 130, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Insurance Company: " + insuranceCoName, font, XBrushes.Black, new XRect(0, 150, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Address: " + address, font, XBrushes.Black, new XRect(0, 170, page.Width.Point, 50), XStringFormats.Center);
+
+            // 返回PDF文件
+            MemoryStream stream = new MemoryStream();
+            document.Save(stream, false);
+            return new FileStreamResult(stream, "application/pdf");
+        }
+
+
     }
+
+
 }
