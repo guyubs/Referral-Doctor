@@ -54,6 +54,12 @@ namespace Referral_Doctor.Controllers
         // GET: DoctorInfoes/Create
         public IActionResult Create()
         {
+            // 获取职称列表并传递到视图
+            ViewBag.TitleList = _context.Titles.ToList();
+            ViewBag.SpecialtyList = _context.Specialties.ToList();
+            ViewBag.InsuranceCompaniesList = _context.InsuranceCompanies.ToList();
+
+
             return View();
         }
 
@@ -62,7 +68,7 @@ namespace Referral_Doctor.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DoctorID,FirstName,LastName,Cell,TitleName,SpecialtyName,InsuranceCoName,Address,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] DoctorInfo doctorInfo)
+        public async Task<IActionResult> Create([Bind("DoctorID,FirstName,LastName,Cell,TitleName,SpecialtyName,InsuranceCoName,Address,Note,Deleted,CreatedBy,ModifiedBy,CreatedDateTime,ModifiedDateTime")] DoctorInfo doctorInfo, string[] selectedTitles, string[] selectedSpecialties, string[] selectedInsuranceCompanies)
         {
             if (ModelState.IsValid)
             {
@@ -107,6 +113,7 @@ namespace Referral_Doctor.Controllers
                 // 设置 CreatedBy
                 doctorInfo.CreatedBy = User.Identity.Name;
 
+
                 // 设置 页面提示信息
                 TempData["success"] = "Created successfully!";
 
@@ -114,6 +121,11 @@ namespace Referral_Doctor.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // 如果模型验证失败，需要重新加载职称选项
+            ViewBag.TitleList = _context.Titles.ToList();
+            ViewBag.SpecialtyList = _context.Specialties.ToList();
+            ViewBag.InsuranceCompaniesList = _context.InsuranceCompanies.ToList();
 
             return View(doctorInfo);
         }
@@ -131,6 +143,12 @@ namespace Referral_Doctor.Controllers
             {
                 return NotFound();
             }
+
+            // 获取职称、专业和保险公司列表并传递到视图
+            ViewBag.TitleList = _context.Titles.ToList();
+            ViewBag.SpecialtyList = _context.Specialties.ToList();
+            ViewBag.InsuranceCompaniesList = _context.InsuranceCompanies.ToList();
+
             return View(doctorInfo);
         }
 
@@ -235,6 +253,12 @@ namespace Referral_Doctor.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // 获取职称、专业和保险公司列表并传递到视图
+            ViewBag.TitleList = _context.Titles.ToList();
+            ViewBag.SpecialtyList = _context.Specialties.ToList();
+            ViewBag.InsuranceCompaniesList = _context.InsuranceCompanies.ToList();
+
             return View(doctorInfo);
         }
 
@@ -295,16 +319,32 @@ namespace Referral_Doctor.Controllers
             XGraphics gfx = XGraphics.FromPdfPage(page);
             XFont font = new XFont("Verdana", 16, XFontStyle.Bold);
 
+            float lineHeight = 20; // 定义行高
 
             // 添加文本
             gfx.DrawString("Doctor Information", font, XBrushes.Black, new XRect(0, 0, page.Width.Point, 50), XStringFormats.Center);
-            gfx.DrawString("First Name: " + firstName, font, XBrushes.Black, new XRect(0, 50, page.Width.Point, 50), XStringFormats.Center);
-            gfx.DrawString("Last Name: " + lastName, font, XBrushes.Black, new XRect(0, 70, page.Width.Point, 50), XStringFormats.Center);
-            gfx.DrawString("Cell Phone: " + cell, font, XBrushes.Black, new XRect(0, 90, page.Width.Point, 50), XStringFormats.Center);
-            gfx.DrawString("Title: " + titleName, font, XBrushes.Black, new XRect(0, 110, page.Width.Point, 50), XStringFormats.Center);
-            gfx.DrawString("Specialty: " + specialtyName, font, XBrushes.Black, new XRect(0, 130, page.Width.Point, 50), XStringFormats.Center);
-            gfx.DrawString("Insurance Company: " + insuranceCoName, font, XBrushes.Black, new XRect(0, 150, page.Width.Point, 50), XStringFormats.Center);
-            gfx.DrawString("Address: " + address, font, XBrushes.Black, new XRect(0, 170, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center); // 添加一个空行
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString("First Name: " + firstName, font, XBrushes.Black, new XRect(0, 50, page.Width.Point, lineHeight), XStringFormats.TopLeft);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString("Last Name: " + lastName, font, XBrushes.Black, new XRect(0, 70, page.Width.Point, lineHeight), XStringFormats.TopLeft);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString("Cell Phone: " + cell, font, XBrushes.Black, new XRect(0, 90, page.Width.Point, lineHeight), XStringFormats.TopLeft);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString("Title: " + titleName, font, XBrushes.Black, new XRect(0, 110, page.Width.Point, lineHeight), XStringFormats.TopLeft);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString("Specialty: " + specialtyName, font, XBrushes.Black, new XRect(0, 130, page.Width.Point, lineHeight), XStringFormats.TopLeft);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString("Insurance Company: " + insuranceCoName, font, XBrushes.Black, new XRect(0, 150, page.Width.Point, lineHeight), XStringFormats.TopLeft);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString(" ", font, XBrushes.Black, new XRect(0, 100, page.Width.Point, 20), XStringFormats.Center);
+            gfx.DrawString("Address: " + address, font, XBrushes.Black, new XRect(0, 170, page.Width.Point, lineHeight), XStringFormats.TopLeft);
 
             // 返回PDF文件
             MemoryStream stream = new MemoryStream();

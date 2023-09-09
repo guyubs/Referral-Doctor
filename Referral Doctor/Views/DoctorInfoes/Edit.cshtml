@@ -29,18 +29,49 @@
                 <span asp-validation-for="Cell" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Select Titles</label>
+                @foreach (var title in ViewBag.TitleList)
+                {
+                    <div class="form-check">
+                        <input type="checkbox" name="selectedTitles" value="@title.TitleName" class="form-check-input" id="title_@title.TitleId">
+                        <label class="form-check-label" for="title_@title.TitleId">@title.TitleName</label>
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
                 <label asp-for="TitleName" class="control-label">Title</label>
-                <input asp-for="TitleName" class="form-control" />
+                <input asp-for="TitleName" class="form-control" readonly id="titleNameInput" />
                 <span asp-validation-for="TitleName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Select Specialties</label>
+                @foreach (var specialty in ViewBag.SpecialtyList)
+                {
+                    <div class="form-check">
+                        <input type="checkbox" name="selectedSpecialties" value="@specialty.SpecialtyName" class="form-check-input" id="specialty_@specialty.SpecialtyId">
+                        <label class="form-check-label" for="specialty_@specialty.SpecialtyId">@specialty.SpecialtyName</label>
+                    </div>
+                }
+            </div>
+            <div class="form-group">
                 <label asp-for="SpecialtyName" class="control-label">Specialty</label>
-                <input asp-for="SpecialtyName" class="form-control" />
+                <input asp-for="SpecialtyName" class="form-control" readonly id="specialtyNameInput" />
                 <span asp-validation-for="SpecialtyName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Select Insurance Company</label>
+                @foreach (var insuranceCompany in ViewBag.InsuranceCompaniesList)
+                {
+                    <div class="form-check">
+                        <input type="checkbox" name="SelectedInsuranceCompanies" value="@insuranceCompany.InsuranceCoName" class="form-check-input" id="insuranceCompanies_@insuranceCompany.InsuranceCoId">
+                        <label class="form-check-label" for="insuranceCompanies_@insuranceCompany.InsuranceCoId">@insuranceCompany.InsuranceCoName</label>
+                    </div>
+                }
+            </div>
+            <div class="form-group">
                 <label asp-for="InsuranceCoName" class="control-label">Insurance Company</label>
-                <input asp-for="InsuranceCoName" class="form-control" />
+                <input asp-for="InsuranceCoName" class="form-control" readonly id="insuranceCoNameInput" />
                 <span asp-validation-for="InsuranceCoName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -80,12 +111,16 @@
                 FirstName: $("#FirstName").val(),
                 LastName: $("#LastName").val(),
                 Cell: $("#Cell").val(),
+                Address: $("#Address").val(),
+                Note: $("#Note").val(),
+                Deleted: $("#Deleted").val(),
                 TitleName: $("#TitleName").val(),
                 SpecialtyName: $("#SpecialtyName").val(),
                 InsuranceCoName: $("#InsuranceCoName").val(),
-                Address: $("#Address").val(),
-                Note: $("#Note").val(),
-                Deleted: $("#Deleted").val()
+                // 添加这三个多选框
+                SelectedTitles: getSelectedValues('selectedTitles'),
+                SelectedSpecialties: getSelectedValues('selectedSpecialties'),
+                SelectedInsuranceCompanies: getSelectedValues('SelectedInsuranceCompanies')
             };
 
             // 检查字段变化
@@ -94,30 +129,86 @@
                     FirstName: $("#FirstName").val(),
                     LastName: $("#LastName").val(),
                     Cell: $("#Cell").val(),
+                    Address: $("#Address").val(),
+                    Note: $("#Note").val(),
+                    Deleted: $("#Deleted").val(),
                     TitleName: $("#TitleName").val(),
                     SpecialtyName: $("#SpecialtyName").val(),
                     InsuranceCoName: $("#InsuranceCoName").val(),
-                    Address: $("#Address").val(),
-                    Note: $("#Note").val(),
-                    Deleted: $("#Deleted").val()
+                    // 添加这三个多选框
+                    SelectedTitles: getSelectedValues('selectedTitles'),
+                    SelectedSpecialties: getSelectedValues('selectedSpecialties'),
+                    SelectedInsuranceCompanies: getSelectedValues('SelectedInsuranceCompanies')
                 };
 
                 return JSON.stringify(currentFormValues) !== JSON.stringify(originalFormValues);
             }
 
-            // 当字段变化时更新按钮状态
+            // 获取多选框的选中值
+            function getSelectedValues(checkboxName) {
+                var selectedValues = [];
+                $('input[name="' + checkboxName + '"]:checked').each(function () {
+                    selectedValues.push($(this).val());
+                });
+                return selectedValues;
+            }
+
+            // 监听字段变化事件
+            $("#FirstName, #LastName, #Cell, #Address, #Note, #Deleted, #TitleName, #SpecialtyName, #InsuranceCoName").change(function () {
+                updateButtonState();
+            });
+
+            // 监听多选框变化事件
+            $('input[name="selectedTitles"], input[name="selectedSpecialties"], input[name="SelectedInsuranceCompanies"]').change(function () {
+                updateButtonState();
+            });
+
+            // 更新按钮状态
             function updateButtonState() {
                 var isFormChanged = checkFormChanges();
                 $("#saveButton").prop("disabled", !isFormChanged);
             }
-
-            // 监听字段变化事件
-            $("#FirstName, #LastName ,#Cell , #TitleName, #SpecialtyName, #InsuranceCoName, #Address, #Note, #Deleted").change(function () {
-                updateButtonState();
-            });
 
             // 初始化按钮状态
             updateButtonState();
         });
     </script>
 }
+
+
+
+<script>
+    // 获取多选框元素
+    var checkboxesTitles = document.querySelectorAll('input[name="selectedTitles"]');
+    var checkboxesSpecialties = document.querySelectorAll('input[name="selectedSpecialties"]');
+    var checkboxesInsuranceCompanies = document.querySelectorAll('input[name="SelectedInsuranceCompanies"]');
+
+    // 获取标题输入框元素
+    var titleInput = document.querySelector('input[name="TitleName"]');
+    var specialtyInput = document.querySelector('input[name="SpecialtyName"]');
+    var insuranceCompaniesInput = document.querySelector('input[name="InsuranceCoName"]');
+
+    // 为复选框添加事件监听器，以在复选框状态变化时更新相应输入框的值
+    function updateInputValue(checkboxes, inputElement) {
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                var selectedValues = [];
+
+                // 遍历所有复选框，如果选中则将其值添加到选中值的数组中
+                checkboxes.forEach(function (cb) {
+                    if (cb.checked) {
+                        selectedValues.push(cb.value);
+                    }
+                });
+
+                // 将选中的值用逗号分隔并设置为输入框的值
+                inputElement.value = selectedValues.join(', ');
+            });
+        });
+    }
+
+    // 更新标题和专业输入框的值
+    updateInputValue(checkboxesTitles, titleInput);
+    updateInputValue(checkboxesSpecialties, specialtyInput);
+    updateInputValue(checkboxesInsuranceCompanies, insuranceCompaniesInput);
+</script>
